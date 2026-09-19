@@ -12,7 +12,7 @@ A landing page created as a portfolio example for a fictional barbershop busines
 
 **Business:** Barbershop
 
-[View Website](./barbearia_exemplo/barbearia_exemplo.html)
+[View Website](./barbearia_exemplo/index.html)
 
 ---
 
