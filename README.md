@@ -18,7 +18,7 @@ A landing page created as a portfolio example for a fictional barbershop busines
 
 ### Cafeteria
 
-A landing page created as a portgolia example for a fictional cafeteria business.
+A landing page created as a portfolio example for a fictional cafeteria business.
 
 **Business:** Cafeteria
 
@@ -26,6 +26,15 @@ A landing page created as a portgolia example for a fictional cafeteria business
 
 ---
 
+### Tailor Shop
+
+A landing page created as a portfolio example for a fictional atelier business.
+
+**Business:** Atelier
+
+[View Website](./costureira_exemplo/index.html)
+
+---
 <!-- Add new projects above this line using the same structure.
 
 ### Project Name
@@ -47,7 +56,11 @@ VITRINE/
 │
 ├── barbearia_exemplo/
 │   └── index.html
-└── lanchonete_exemplo/
+│
+├── lanchonete_exemplo/
+│   └── index.html
+│
+└── costureira_exemplo/
     └── index.html
 ```
 
