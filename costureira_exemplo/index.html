@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Costureira Exemplo — Conserto e Customização de Roupas com Carinho</title>
+<meta name="description" content="Ateliê de costura acolhedor especializado em conserto de roupas, ajustes finos, remendos invisíveis e customizações delicadas. Tradição de família, cuidado artesanal em cada ponto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Nunito:wght@400;600;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    /* ===== Brand colors (Client Brief — Costureira Exemplo) ===== */
+    --base-color: #F7D6D0;          /* Rosa Poesia — destaques, botões, laços */
+    --secondary-color: #8C6D62;     /* Marrom Café com Leite — texto sobre base-color */
+    --accent-tea: #D0E1D4;          /* Verde Chá — faixas e contornos secundários */
+
+    /* ===== Neutral / functional colors ===== */
+    --color-text: #8C6D62;
+    --color-text-muted: #A6897D;
+    --color-background: #FCF6EE;    /* Baunilha Conforto */
+    --color-surface: #FFFFFF;       /* Branco Algodão */
+    --color-border: #EAD9D2;
+
+    --color-success: #2e7d32;
+    --color-error: #c62828;
+    --color-hover-overlay: rgba(140, 109, 98, 0.08);
+
+    /* ===== Spacing ===== */
+    --space-s: 1rem;
+    --space-m: 2rem;
+    --space-l: 3rem;
+    --space-xl: 4rem;
+
+    /* ===== Fonts ===== */
+    --font-title: 'Playfair Display', Georgia, serif;
+    --font-body: 'Nunito', system-ui, sans-serif;
+    --font-accent: 'Caveat', cursive;
+
+    --text-s: 0.9rem;
+    --text-m: 1rem;
+    --text-l: 1.5rem;
+    --text-xl: 2.5rem;
+
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.7;
+
+    --border-radius-s: 8px;
+    --border-radius-m: 16px;
+    --border-radius-l: 24px;
+
+    --shadow-s: 0 1px 3px rgba(140, 109, 98, 0.14);
+    --shadow-m: 0 4px 12px rgba(140, 109, 98, 0.18);
+    --shadow-l: 0 8px 24px rgba(140, 109, 98, 0.22);
+
+    --transition-fast: 150ms;
+    --transition-normal: 300ms;
+
+    --container-max-width: 1200px;
+    --z-index-header: 100;
+    --z-index-overlay: 500;
+    --z-index-modal: 1000;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --color-background: #2E2019;
+      --color-surface: #3B2A22;
+      --color-text: #F3E7DE;
+      --color-text-muted: #C9B3A6;
+      --color-border: #4C3A31;
+      --base-color: #C98F86;
+      --secondary-color: #2E2019;
+      --accent-tea: #7C9683;
+      --color-hover-overlay: rgba(255, 255, 255, 0.08);
+    }
+  }
+  :root[data-theme="dark"] {
+    --color-background: #2E2019;
+    --color-surface: #3B2A22;
+    --color-text: #F3E7DE;
+    --color-text-muted: #C9B3A6;
+    --color-border: #4C3A31;
+    --base-color: #C98F86;
+    --secondary-color: #2E2019;
+    --accent-tea: #7C9683;
+    --color-hover-overlay: rgba(255, 255, 255, 0.08);
+  }
+
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  * { box-sizing: inherit; }
+  body {
+    margin: 0;
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: var(--line-height-normal);
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  h1, h2, h3 {
+    font-family: var(--font-title);
+    line-height: var(--line-height-tight);
+    margin: 0 0 var(--space-s) 0;
+    font-weight: 600;
+  }
+  p { margin: 0 0 var(--space-s) 0; }
+  a { color: inherit; }
+  .container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-m);
+  }
+  .overflow-scroll { overflow-x: auto; }
+
+  /* ---------- Little bow divider (decorative, coquette touch) ---------- */
+  .bow { display: block; margin: 0 auto var(--space-s); width: 34px; height: 20px; }
+  .bow path { fill: var(--base-color); }
+
+  /* ---------- HEADER ---------- */
+  .site-header {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: var(--z-index-header);
+    background: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .site-header__inner {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: var(--space-s) var(--space-m);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+  }
+  .brand {
+    font-family: var(--font-accent);
+    font-size: 1.9rem;
+    color: var(--color-text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .main-nav { display: flex; align-items: center; gap: var(--space-m); }
+  .main-nav__list {
+    list-style: none;
+    display: flex;
+    gap: var(--space-m);
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    font-size: var(--text-s);
+  }
+  .main-nav__list a { text-decoration: none; padding: 4px 2px; border-bottom: 2px solid transparent; transition: border-color var(--transition-fast); }
+  .main-nav__list a:hover, .main-nav__list a:focus-visible { border-color: var(--base-color); }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-s);
+    color: var(--color-text);
+  }
+  .nav-toggle svg { width: 24px; height: 24px; }
+
+  .btn {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: var(--text-m);
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: var(--border-radius-s);
+    padding: var(--space-s) var(--space-m);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+  .btn:focus-visible { outline: 3px solid var(--accent-tea); outline-offset: 2px; }
+  .btn--primary { background: var(--base-color); color: var(--secondary-color); }
+  .btn--primary:hover { background: color-mix(in srgb, var(--base-color) 88%, var(--color-text)); }
+  .btn--secondary { background: transparent; color: var(--base-color, var(--color-text)); border-color: var(--color-text); color: var(--color-text); }
+  .btn--secondary:hover { background: var(--color-hover-overlay); }
+  .btn--small { padding: 0.55rem var(--space-s); font-size: var(--text-s); }
+
+  /* ---------- HERO (background_header style) ---------- */
+  .hero {
+    position: relative;
+    min-height: 135vh;
+    display: flex;
+    align-items: flex-end;
+    background: linear-gradient(180deg, var(--accent-tea) 0%, var(--base-color) 55%, var(--color-background) 100%); /*MUDAR A IMAGEM AQUIIIIIIIIIIIIIIIIIIII*/
+    overflow: hidden;
+  }
+  .hero__placeholder-note {
+    position: absolute;
+    top: var(--space-s);
+    left: var(--space-s);
+    background: rgba(255,255,255,0.7);
+    color: black;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--border-radius-s);
+  }
+  .hero__content {
+    position: relative;
+    width: 100%;
+    padding: var(--space-m) var(--space-m) var(--space-xl);
+    background: linear-gradient(0deg, rgba(252,246,238,0.98) 40%, rgba(252,246,238,0.85) 85%, rgba(252,246,238,0.15) 100%);
+    text-align: center;
+  }
+  .hero__eyebrow { font-family: var(--font-accent); font-size: 1.4rem; color: var(--secondary-color); }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, var(--text-xl));
+    max-width: 18ch;
+    margin-left: auto;
+    margin-right: auto;
+    color: #5C4033;
+  }
+  .hero__subtext {
+    max-width: 55ch;
+    margin: 0 auto var(--space-m);
+    color: var(--secondary-color);
+    font-size: var(--text-l);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* ---------- SECTION spacing ---------- */
+  section { padding: var(--space-xl) 0; }
+  .section-heading { text-align: center; max-width: 60ch; margin: 0 auto var(--space-l); }
+  .section-heading h2 { font-size: var(--text-xl); }
+  .section-heading p { color: var(--color-text-muted); font-size: var(--text-l); }
+
+  /* ---------- ABOUT ---------- */
+  .about { background: var(--color-background); }
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .about p { font-size: var(--text-m); line-height: var(--line-height-relaxed); }
+  .about__signature { font-family: var(--font-accent); font-size: 1.5rem; color: var(--secondary-color); text-align: right; }
+
+  /* ---------- HOURS BAND ---------- */
+  .hours-band {
+    background: var(--accent-tea);
+    color: var(--secondary-color);
+    padding: var(--space-m) 0;
+    text-align: center;
+  }
+  .hours-band p { margin: 0; font-weight: 700; font-size: var(--text-l); font-family: var(--font-title); }
+  .hours-band span { display: block; font-family: var(--font-body); font-weight: 600; font-size: var(--text-s); margin-top: 0.25rem; }
+
+  /* ---------- SERVICES ---------- */
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: var(--space-m);
+  }
+  .card {
+    background: var(--color-surface);
+    border-radius: var(--border-radius-m);
+    box-shadow: var(--shadow-s);
+    padding: var(--space-m);
+  }
+  .card__icon { width: 34px; height: 34px; margin-bottom: var(--space-s); color: var(--base-color); }
+  .card__icon path, .card__icon circle { stroke: var(--secondary-color); }
+  .card h3 { font-size: var(--text-l); }
+  .card p { color: var(--color-text-muted); font-size: var(--text-s); }
+
+  /* ---------- GALLERY (photo-album style) ---------- */
+  .gallery { background: var(--accent-tea); }
+  .gallery .section-heading p { color: var(--secondary-color); }
+  .gallery__note { text-align: center; font-size: var(--text-s); color: var(--secondary-color); margin-top: calc(-1 * var(--space-m)); margin-bottom: var(--space-l); }
+  .album {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto;
+    gap: var(--space-l) var(--space-m);
+    padding: var(--space-s) 0;
+  }
+  .polaroid {
+    width: fit-content;
+    background: var(--color-surface);
+    padding: var(--space-s) var(--space-s) var(--space-s);
+    box-shadow: var(--shadow-m);
+    border-radius: var(--border-radius-s);
+    transition: transform var(--transition-normal);
+  }
+  .polaroid:hover, .polaroid:focus-within { transform: translateY(-6px) rotate(0deg) !important; }
+  .polaroid:nth-child(odd) { transform: rotate(-3deg); }
+  .polaroid:nth-child(even) { transform: rotate(2.5deg); }
+  .polaroid:nth-child(3n) { transform: rotate(-1.5deg); }
+  .polaroid__frame {
+    width: 170px;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, var(--base-color), var(--accent-tea));
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);
+    font-size: var(--text-s);
+    text-align: center;
+    padding: var(--space-s);
+  }
+  .polaroid__caption {
+    font-family: var(--font-accent);
+    font-size: 1.15rem;
+    color: var(--color-text);
+    text-align: center;
+    margin-top: 0 /*var(--space-s)*/;
+    margin-bottom: 0;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact { background: var(--color-background); }
+  .contact__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .contact__actions { display: flex; flex-wrap: wrap; gap: var(--space-s); justify-content: center; }
+  .socials { display: flex; gap: var(--space-s); justify-content: center; }
+  .socials a {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-s);
+    transition: background var(--transition-fast);
+  }
+  .socials a:hover { background: var(--base-color); }
+  .socials svg { width: 20px; height: 20px; }
+  .contact__note { font-size: var(--text-s); color: var(--color-text-muted); }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer {
+    background: var(--secondary-color);
+    color: var(--color-background);
+    padding: var(--space-l) 0 calc(var(--space-l) + env(safe-area-inset-bottom, 0px));
+  }
+  .site-footer a { color: var(--color-background); text-decoration: none; }
+  .site-footer .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    justify-content: space-between;
+    align-items: center;
+  }
+  .site-footer__brand { font-family: var(--font-accent); font-size: 1.6rem; }
+  .site-footer nav ul { list-style: none; display: flex; gap: var(--space-m); padding: 0; margin: 0; font-size: var(--text-s); }
+  .site-footer small { display: block; width: 100%; text-align: center; margin-top: var(--space-m); opacity: 0.75; font-size: var(--text-s); }
+
+  /* ---------- Skip link ---------- */
+  .skip-link {
+    position: absolute; left: -999px; top: 0;
+    background: var(--base-color); color: var(--secondary-color);
+    padding: var(--space-s); z-index: var(--z-index-modal);
+  }
+  .skip-link:focus { left: var(--space-s); top: var(--space-s); }
+
+  /* ---------- Responsive ---------- */
+
+@media (max-width: 960px){
+  .polaroid__frame{
+    width: 150px;
+  }
+}
+
+  @media (max-width: 890px){
+    .album{
+      grid-template-columns: auto auto;
+      grid-template-rows: auto auto auto;
+    }
+    .polaroid{
+      justify-self: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero{
+      min-height: 125h;
+    }
+    .main-nav__list { display: none; }
+    .main-nav.is-open .main-nav__list {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--color-background);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-m);
+      gap: var(--space-s);
+    }
+    .nav-toggle { display: inline-flex; }
+    .site-header__inner { position: relative; }
+    .site-header__inner .btn--primary.header-cta { display: none; }
+  }
+  @media (max-width: 600px){
+    .polaroid__frame{ width: 120px; }
+  }
+
+  @media (max-width: 545px){
+    .album{
+    grid-template-columns: auto;
+    grid-template-rows: repeat(auto, 6);
+    }
+    .polaroid__frame{width: 150px;}
+  }
+
+  @media (max-width: 480px) {
+    .brand { font-size: 1.5rem; }
+    .hero { min-height: 150vh; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="#top">Costureira Exemplo</a>
+    <nav class="main-nav" id="main-nav">
+      <ul class="main-nav__list">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn--primary btn--small header-cta" href="#contato">Fale conosco</a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menu de navegação">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <div id="top"></div>
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Abertura">
+    <span class="hero__placeholder-note">Imagem ilustrativa — substituir por foto real do ateliê</span>
+    <div class="hero__content">
+      <p class="hero__eyebrow">feito à mão, com carinho</p>
+      <h1>Cada peça merece uma segunda chance</h1>
+      <p class="hero__subtext">Conserto de roupas, ajustes finos e customizações delicadas — como na casa da vó, com o cuidado de quem trata cada ponto como um gesto de afeto.</p>
+      <a class="btn btn--primary" href="#contato">Fale conosco no WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre" class="about">
+    <div class="container about__grid">
+      <div class="section-heading">
+        <svg class="bow" viewBox="0 0 34 20" aria-hidden="true"><path d="M17 10c-3-6-13-8-15-3s6 6 15 3zm0 0c3-6 13-8 15-3s-6 6-15 3zm-2 0a2 2 0 104 0 2 2 0 10-4 0z"/></svg>
+        <h2>Sobre o nosso ateliê</h2>
+      </div>
+      <p>Nossa pequena loja de costura é um espaço aconchegante e cheio de carinho, onde cada peça de roupa ganha uma nova vida. Inspirados na estética casa de vó e no encanto do estilo coquette, transformamos o conserto de roupas rasgadas ou danificadas em um verdadeiro ato de afeto e sustentabilidade.</p>
+      <p>Nossa história é construída sobre uma tradição de família passada de geração em geração, mantendo vivo o cuidado artesanal e a dedicação em cada ponto. Enquanto você aguarda, é recebido com um atendimento acolhedor, acompanhado de um cafezinho e um bolo caseiro fresquinho, em um ambiente decorado com crochês e tons pastéis.</p>
+      <p class="about__signature">— com carinho, Costureira Exemplo</p>
+    </div>
+  </section>
+
+  <!-- HORÁRIO -->
+  <div class="hours-band">
+    <p>Terça a sábado, das 9h às 18h<span>Portas abertas para receber você com um cafezinho</span></p>
+  </div>
+
+  <!-- SERVIÇOS -->
+  <section id="servicos">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Serviços</h2>
+        <p>Cada ponto pensado com cuidado artesanal</p>
+      </div>
+      <div class="services__grid">
+        <article class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M8 9h5M8 15h5"/></svg>
+          <h3>Conserto de roupas</h3>
+          <p>Reparo de peças rasgadas ou danificadas, devolvendo vida a roupas queridas.</p>
+        </article>
+        <article class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 3v18M7 8l5-5 5 5M7 16l5 5 5-5"/></svg>
+          <h3>Ajustes finos</h3>
+          <p>Modelagem sob medida para o caimento perfeito em cada peça.</p>
+        </article>
+        <article class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 12c4-6 12-6 16 0-4 6-12 6-16 0z"/><circle cx="12" cy="12" r="2"/></svg>
+          <h3>Remendos invisíveis</h3>
+          <p>Reparos discretos que preservam a beleza original do tecido.</p>
+        </article>
+        <article class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="16" r="3"/><path d="M10 10l4 4"/></svg>
+          <h3>Customizações delicadas</h3>
+          <p>Detalhes com fitas e pérolas para dar um toque único e especial.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="galeria" class="gallery">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Galeria</h2>
+        <p>Um álbum de pontos, tecidos e memórias</p>
+      </div>
+      <p class="gallery__note">Fotos ilustrativas — em breve, imagens reais do ateliê e dos trabalhos realizados.</p>
+      <div class="album">
+        <figure class="polaroid"><div class="polaroid__frame">foto do ateliê</div><figcaption class="polaroid__caption">nosso cantinho</figcaption></figure>
+        <figure class="polaroid"><div class="polaroid__frame">foto do trabalho</div><figcaption class="polaroid__caption">antes &amp; depois</figcaption></figure>
+        <figure class="polaroid"><div class="polaroid__frame">foto do trabalho</div><figcaption class="polaroid__caption">ponto a ponto</figcaption></figure>
+        <figure class="polaroid"><div class="polaroid__frame">foto do ateliê</div><figcaption class="polaroid__caption">tarde de costura</figcaption></figure>
+        <figure class="polaroid"><div class="polaroid__frame">foto do trabalho</div><figcaption class="polaroid__caption">feito à mão</figcaption></figure>
+        <figure class="polaroid"><div class="polaroid__frame">foto do trabalho</div><figcaption class="polaroid__caption">com carinho</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato" class="contact">
+    <div class="container contact__grid">
+      <div class="section-heading">
+        <h2>Vamos conversar?</h2>
+        <p>Conte pra gente o que sua peça precisa</p>
+      </div>
+      <div class="contact__actions">
+        <a class="btn btn--primary" href="#" aria-label="Falar no WhatsApp (número a confirmar)">Fale no WhatsApp</a>
+        <a class="btn btn--secondary" href="#" aria-label="Ver localização (endereço a confirmar)">Ver localização</a>
+      </div>
+      <div class="socials">
+        <a href="#" aria-label="Instagram (a confirmar)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="Facebook (a confirmar)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 8h2V5h-2a4 4 0 00-4 4v2H9v3h2v7h3v-7h2.5l.5-3H14V9a1 1 0 011-1z"/></svg></a>
+      </div>
+      <p class="contact__note">Endereço, WhatsApp e redes sociais serão adicionados assim que informados pela cliente.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span class="site-footer__brand">Costureira Exemplo</span>
+    <nav aria-label="Navegação do rodapé">
+      <ul>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+    <small>&copy; 2026 Costureira Exemplo. Feito à mão, ponto a ponto.</small>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('nav-toggle');
+    var nav = document.getElementById('main-nav');
+    toggle.addEventListener('click', function () {
+      var isOpen = nav.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        nav.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
+</body>
+</html>
