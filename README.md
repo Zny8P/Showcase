@@ -45,7 +45,9 @@ VITRINE/
 │
 ├── README.md
 │
-└── barbearia/
+├── barbearia_exemplo/
+│   └── index.html
+└── lanchonete_exemplo/
     └── index.html
 ```
 
