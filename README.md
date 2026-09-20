@@ -16,6 +16,16 @@ A landing page created as a portfolio example for a fictional barbershop busines
 
 ---
 
+### Cafeteria
+
+A landing page created as a portgolia example for a fictional cafeteria business.
+
+**Business:** Cafeteria
+
+[View Website](./lanchonete_exemplo/index.html)
+
+---
+
 <!-- Add new projects above this line using the same structure.
 
 ### Project Name

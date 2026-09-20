@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lanchonete Exemplo — Hambúrgueres, Milk-shakes e Fliperama Anos 80</title>
+<meta name="description" content="Lanchonete Exemplo: hambúrgueres artesanais, milk-shakes cremosos e fliperama original em um salão com a atmosfera dos anos 80. Aberto de terça a domingo, das 18h à meia-noite.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   DESIGN TOKENS — base em SYSTEM_DESIGN.md
+   Cores de marca sobrescritas conforme CLIENT_BRIEF (Lanchonete exemplo).
+   Fundo/superfícies/texto ajustados para o tema escuro solicitado
+   pelo cliente (ambiente noturno de fliperama), mantendo o propósito
+   semântico de cada token.
+========================================================== */
+:root{
+  /* --- BRAND COLORS (definidas pelo Client Brief) --- */
+  --base-color: #FF007F;         /* rosa choque — CTA principal / destaques */
+  --secondary-color: #0A1128;    /* azul-marinho — texto sobre o CTA principal */
+
+  /* --- FUNCTIONAL / NEUTRAL COLORS (adaptadas ao tema escuro do brief) --- */
+  --color-text: #F3EFFF;
+  --color-text-muted: #B7AEDD;
+  --color-background: #0A1128;      /* início do degradê de fundo */
+  --color-background-end: #000000;  /* fim do degradê de fundo (token novo, necessário para o degradê pedido no brief) */
+  --color-surface: #8A2BE2;         /* roxo elétrico — cards e fundos secundários */
+  --color-border: #00F0FF;          /* ciano — bordas iluminadas / links */
+
+  /* --- STATE COLORS (clareadas para manter contraste sobre fundo escuro) --- */
+  --color-success: #4ADE80;
+  --color-error: #FF5C7A;
+  --color-hover-overlay: rgba(255, 255, 255, 0.10);
+
+  /* --- NEON GRADIENT (token novo — combinação decorativa pedida no brief) --- */
+  --neon-gradient: linear-gradient(90deg, #FFE600, #11FF00, #00F5FF);
+
+  /* --- SPACING --- */
+  --space-s: 1rem;
+  --space-m: 2rem;
+  --space-l: 3rem;
+  --space-xl: 4rem;
+
+  /* --- FONTS --- */
+  --font-title: "Bungee", var(--font-body);
+  --font-body: "Space Grotesk", system-ui, sans-serif;
+
+  --text-s: 0.9rem;
+  --text-m: 1rem;
+  --text-l: 1.5rem;
+  --text-xl: 2.5rem;
+
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.7;
+
+  /* --- BORDER RADIUS --- */
+  --border-radius-s: 8px;
+  --border-radius-m: 16px;
+  --border-radius-l: 24px;
+
+  /* --- SHADOWS --- */
+  --shadow-s: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-m: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-l: 0 8px 24px rgba(0, 0, 0, 0.55);
+
+  /* --- EFFECTS --- */
+  --transition-fast: 150ms;
+  --transition-normal: 300ms;
+
+  /* --- LAYOUT --- */
+  --container-max-width: 1200px;
+  --z-index-header: 100;
+  --z-index-overlay: 500;
+  --z-index-modal: 1000;
+}
+
+/* ==========================================================
+   RESET / BASE
+========================================================== */
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-background-end) 100%);
+  background-attachment: fixed;
+  line-height: var(--line-height-normal);
+  overflow-x: hidden;
+}
+img{ max-width: 100%; display: block; }
+a{ color: var(--color-border); }
+:focus-visible{
+  outline: 3px solid var(--color-border);
+  outline-offset: 2px;
+}
+h1, h2, h3{
+  font-family: var(--font-title);
+  line-height: var(--line-height-tight);
+  color: #FFFFFF;
+  margin: 0;
+}
+.container{
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-m);
+}
+.section{
+  padding-block: var(--space-xl);
+  position: relative;
+}
+.section__eyebrow{
+  font-family: var(--font-title);
+  font-size: var(--text-s);
+  color: var(--base-color);
+  margin-bottom: var(--space-s);
+}
+.section__title{
+  font-size: var(--text-l);
+  max-width: 32ch;
+}
+.visually-hidden{
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}
+
+/* ==========================================================
+   BOTÕES (COMPONENT_RULE.md)
+   Observação: o Client Brief define explicitamente o ciano como cor
+   de botões secundários — sobrescreve a cor padrão (base-color) da
+   regra geral, conforme prioridade do projeto (Client Brief > Component Rule).
+========================================================== */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-m);
+  padding: var(--space-s) var(--space-m);
+  border-radius: var(--border-radius-s);
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+.btn--primary{
+  background: var(--base-color);
+  color: var(--secondary-color);
+}
+.btn--primary:hover{
+  background: color-mix(in srgb, var(--base-color) 88%, white 12%);
+}
+.btn--secondary{
+  background: transparent;
+  color: var(--color-border);
+  border-color: var(--color-border);
+}
+.btn--secondary:hover{
+  background: var(--color-hover-overlay);
+}
+.btn:active{ transform: translateY(1px); }
+
+/* ==========================================================
+   HEADER (background_header — trilha sticky pelo CTA de contato)
+========================================================== */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: var(--z-index-header);
+  background: rgba(10, 17, 40, 0.85);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.25);
+}
+.site-header__bar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+  padding-block: var(--space-s);
+}
+.logo{
+  font-family: var(--font-title);
+  font-size: 1.1rem;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 0 6px var(--base-color), 0 0 16px rgba(255,0,127,0.6);
+  letter-spacing: 0.02em;
+}
+.logo span{ color: var(--color-border); }
+
+.nav-toggle{
+  display: none;
+  background: transparent;
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-s);
+  color: var(--color-border);
+  width: 42px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.nav-toggle svg{ width: 20px; height: 20px; }
+
+.main-nav__list{
+  display: flex;
+  list-style: none;
+  gap: var(--space-m);
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+.main-nav__list a{
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: var(--text-m);
+  padding: 0.35rem 0.1rem;
+  border-bottom: 2px solid transparent;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+.main-nav__list a:hover{
+  color: var(--color-border);
+  border-color: var(--color-border);
+}
+
+@media (max-width: 768px){
+  .nav-toggle{ display: inline-flex; }
+  .main-nav{
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    background: rgba(10, 17, 40, 0.98);
+    border-bottom: 1px solid rgba(0,240,255,0.25);
+  }
+  .main-nav[data-open="false"]{ display: none; }
+  .main-nav__list{
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    padding: var(--space-m);
+    gap: var(--space-s);
+  }
+}
+
+/* ==========================================================
+   DECORAÇÃO — triângulos neon (referência aos anos 80 / fliperama)
+========================================================== */
+.neon-triangles{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.neon-triangles span{
+  position: absolute;
+  width: 0; height: 0;
+  opacity: 0.5;
+  filter: blur(0.5px);
+}
+.tri-1{ border-left: 60px solid transparent; border-right: 60px solid transparent; border-bottom: 100px solid #FFE600; top: 8%; left: 6%; transform: rotate(-12deg); opacity:0.18; }
+.tri-2{ border-left: 40px solid transparent; border-right: 40px solid transparent; border-bottom: 70px solid #00F5FF; bottom: 12%; left: 14%; transform: rotate(20deg); opacity:0.20; }
+.tri-3{ border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 85px solid #11FF00; top: 20%; right: 8%; transform: rotate(8deg); opacity:0.16; }
+.tri-4{ border-left: 30px solid transparent; border-right: 30px solid transparent; border-bottom: 55px solid #FF007F; bottom: 18%; right: 16%; transform: rotate(-18deg); opacity:0.25; }
+
+/* ==========================================================
+   HERO
+========================================================== */
+.hero{
+  padding-block: var(--space-xl) calc(var(--space-xl) * 1.2);
+  text-align: center;
+  overflow: hidden;
+}
+.hero__content{
+  position: relative;
+  z-index: 1;
+  max-width: 46rem;
+  margin-inline: auto;
+}
+.hero__title{
+  font-size: clamp(2rem, 5vw + 1rem, var(--text-xl));
+  text-shadow: 0 0 10px rgba(255,0,127,0.55), 0 0 28px rgba(0,240,255,0.25);
+}
+.hero__title em{
+  font-style: normal;
+  background: var(--neon-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero__subtitle{
+  margin-top: var(--space-s);
+  font-size: var(--text-l);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+}
+.hero__actions{
+  margin-top: var(--space-l);
+  display: flex;
+  gap: var(--space-s);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hero__badge{
+  display: inline-block;
+  margin-bottom: var(--space-s);
+  font-family: var(--font-title);
+  font-size: var(--text-s);
+  color: var(--secondary-color);
+  background: var(--neon-gradient);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--border-radius-s);
+}
+
+/* ==========================================================
+   SOBRE
+========================================================== */
+.about{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-l);
+  align-items: center;
+}
+@media (min-width: 769px){
+  .about{ grid-template-columns: 0.9fr 1.1fr; }
+}
+.about__visual{
+  border-radius: var(--border-radius-l);
+  background: linear-gradient(145deg, var(--color-surface), #4b1a8a);
+  border: 2px solid var(--color-border);
+  box-shadow: var(--shadow-m);
+  padding: var(--space-l);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.about__text p{
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  margin: 0 0 var(--space-s);
+}
+.about__text p:last-child{ margin-bottom: 0; }
+
+/* Ícone decorativo — fita cassete (elemento retrô pedido no brief) */
+.cassette{ width: 100%; max-width: 220px; height: auto; }
+
+/* ==========================================================
+   DIFERENCIAIS / CARDS (Card rules — COMPONENT_RULE.md)
+========================================================== */
+.cards-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-m);
+  margin-top: var(--space-l);
+}
+.card{
+  background: linear-gradient(160deg, var(--color-surface), #3a1466);
+  border: 1px solid rgba(0,240,255,0.35);
+  border-radius: var(--border-radius-m);
+  padding: var(--space-m);
+  box-shadow: var(--shadow-s);
+  transition: box-shadow var(--transition-normal), border-color var(--transition-normal);
+}
+.card:hover{
+  box-shadow: var(--shadow-m);
+  border-color: var(--color-border);
+}
+.card__icon{
+  width: 40px; height: 40px;
+  margin-bottom: var(--space-s);
+  color: var(--color-border);
+}
+.card h3{
+  font-size: var(--text-m);
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+.card p{
+  color: var(--color-text-muted);
+  font-size: var(--text-s);
+  margin: 0;
+  line-height: var(--line-height-normal);
+}
+
+/* Faixa de horário / formatos de atendimento */
+.info-strip{
+  margin-top: var(--space-l);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-m);
+  justify-content: center;
+  text-align: center;
+}
+.info-strip__item{
+  flex: 1 1 200px;
+  padding: var(--space-s);
+  border: 1px dashed rgba(0,240,255,0.4);
+  border-radius: var(--border-radius-s);
+}
+.info-strip__item strong{ display:block; color: #fff; font-family: var(--font-title); font-size: var(--text-s); margin-bottom: 0.3rem; }
+.info-strip__item span{ color: var(--color-text-muted); font-size: var(--text-s); }
+
+/* ==========================================================
+   GALERIA — placeholders (sem imagens fornecidas no brief)
+========================================================== */
+.gallery-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-s);
+  margin-top: var(--space-l);
+}
+.gallery-tile{
+  aspect-ratio: 4 / 3;
+  border-radius: var(--border-radius-m);
+  background: repeating-linear-gradient(135deg, rgba(255,0,127,0.12), rgba(255,0,127,0.12) 10px, rgba(0,240,255,0.10) 10px, rgba(0,240,255,0.10) 20px), var(--color-surface);
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-family: var(--font-title);
+  font-size: var(--text-s);
+  text-align: center;
+  padding: var(--space-s);
+}
+
+/* ==========================================================
+   CONTATO
+========================================================== */
+.contact{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-l);
+}
+@media (min-width: 769px){
+  .contact{ grid-template-columns: 1fr 1fr; }
+}
+.contact__card{
+  background: var(--color-surface);
+  border-radius: var(--border-radius-m);
+  padding: var(--space-l);
+  box-shadow: var(--shadow-s);
+  border: 1px solid rgba(0,240,255,0.3);
+}
+.contact__card h3{
+  font-family: var(--font-body);
+  font-size: var(--text-l);
+  color: #fff;
+  margin-bottom: var(--space-s);
+}
+.contact__list{
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid;
+  gap: 0.6rem;
+  color: var(--color-text-muted);
+}
+.contact__list strong{ color: #fff; }
+.contact__pending{
+  font-size: var(--text-s);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+.social-row{
+  display: flex;
+  gap: var(--space-s);
+  margin-top: var(--space-m);
+}
+.social-row a{
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-border);
+  text-decoration: none;
+  transition: background var(--transition-fast);
+}
+.social-row a:hover{ background: var(--color-hover-overlay); }
+.social-row svg{ width: 18px; height: 18px; }
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+.site-footer{
+  border-top: 1px solid rgba(0,240,255,0.25);
+  padding-block: var(--space-l);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-s);
+}
+.site-footer__nav{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-m);
+  margin-bottom: var(--space-s);
+  list-style: none;
+  padding: 0;
+}
+.site-footer__nav a{
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+.site-footer__nav a:hover{ color: var(--color-border); }
+
+/* WhatsApp floating CTA */
+.whatsapp-float{
+  position: fixed;
+  right: var(--space-m);
+  bottom: var(--space-m);
+  z-index: var(--z-index-overlay);
+  background: var(--base-color);
+  color: var(--secondary-color);
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-m);
+  text-decoration: none;
+  transition: transform var(--transition-fast);
+}
+.whatsapp-float:hover{ transform: scale(1.06); }
+.whatsapp-float svg{ width: 26px; height: 26px; }
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  *{ transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!--
+  ABERTO / PENDÊNCIAS (não preenchidas no CLIENT_BRIEF, não inventadas):
+  - Endereço completo
+  - Número de WhatsApp
+  - Redes sociais (Instagram/Facebook)
+  - Imagens reais do cardápio/salão (Galeria está com placeholders estruturais)
+  - Texto específico da seção "Serviços" (usei os serviços de atendimento citados no texto de "Sobre": local, retirada, delivery)
+-->
+
+<a class="visually-hidden" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a href="#topo" class="logo">LANCHONETE <span>EXEMPLO</span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" id="navToggle">
+      <span class="visually-hidden">Abrir menu</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <nav class="main-nav" id="main-nav" data-open="false" aria-label="Navegação principal">
+      <ul class="main-nav__list">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#diferenciais">Diferenciais</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+        <li><a href="#contato">Contato</a></li>
+        <li><a class="btn btn--secondary" href="#contato">Visitar a loja</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo-principal">
+
+  <!-- HERO -->
+  <section class="hero" id="topo">
+    <div class="neon-triangles" aria-hidden="true">
+      <span class="tri-1"></span><span class="tri-2"></span><span class="tri-3"></span><span class="tri-4"></span>
+    </div>
+    <div class="container hero__content">
+      <span class="hero__badge">Aberto de terça a domingo · 18h – 00h</span>
+      <h1 class="hero__title">Fliperama, milk-shake e <em>os anos 80</em> em cada mesa</h1>
+      <p class="hero__subtitle">Um salão nascido do sonho de dois amigos apaixonados pela era de ouro dos anos oitenta — fitas cassete, discos de vinil e cultura pop reunidos em um só lugar para você se desligar do digital.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#contato">Visitar a loja</a>
+        <a class="btn btn--secondary" href="#diferenciais">Conhecer o cardápio</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="section" id="sobre">
+    <div class="container about">
+      <div class="about__visual" aria-hidden="true">
+        <svg class="cassette" viewBox="0 0 200 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="192" height="122" rx="14" fill="#0A1128" stroke="#00F0FF" stroke-width="3"/>
+          <rect x="20" y="20" width="160" height="50" rx="6" fill="#8A2BE2" stroke="#FF007F" stroke-width="2"/>
+          <circle cx="60" cy="45" r="16" fill="#0A1128" stroke="#FFE600" stroke-width="3"/>
+          <circle cx="140" cy="45" r="16" fill="#0A1128" stroke="#FFE600" stroke-width="3"/>
+          <circle cx="60" cy="45" r="5" fill="#00F5FF"/>
+          <circle cx="140" cy="45" r="5" fill="#00F5FF"/>
+          <rect x="30" y="84" width="140" height="10" rx="5" fill="#11FF00" opacity="0.7"/>
+          <rect x="30" y="100" width="90" height="8" rx="4" fill="#FF007F" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="about__text">
+        <p class="section__eyebrow">Sobre a lanchonete</p>
+        <h2 class="section__title">A nossa história começa nos anos 80</h2>
+        <p>Nossa lanchonete nasceu do sonho de dois amigos apaixonados pela era de ouro dos anos oitenta, reunindo a nostalgia das fitas cassete, dos discos de vinil e da cultura pop em um único espaço.</p>
+        <p>Nosso maior diferencial é a experiência imersiva que oferecemos: um cardápio artesanal com hambúrgueres gigantes e milk-shakes cremosos, em um salão repleto de máquinas de fliperama originais, com trilha sonora focada no melhor do synthpop e do rock da época.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFERENCIAIS -->
+  <section class="section" id="diferenciais" style="background: rgba(138,43,226,0.06);">
+    <div class="container">
+      <p class="section__eyebrow" style="text-align:center;">O que você encontra aqui</p>
+      <h2 class="section__title" style="margin-inline:auto; text-align:center;">Uma experiência completa, não só uma refeição</h2>
+      <div class="cards-grid">
+        <div class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10h16M4 14h16M6 18h12" stroke-linecap="round"/><path d="M4 10c0-3 3-6 8-6s8 3 8 6" stroke-linecap="round"/></svg>
+          <h3>Hambúrgueres artesanais</h3>
+          <p>Lanches gigantes preparados com receita própria, para matar a fome com estilo.</p>
+        </div>
+        <div class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4h10l-1 9a4 4 0 0 1-8 0L7 4Z" stroke-linejoin="round"/><path d="M9 4V2h6v2" /></svg>
+          <h3>Milk-shakes cremosos</h3>
+          <p>A combinação perfeita para acompanhar uma noite de fliperama com os amigos.</p>
+        </div>
+        <div class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+          <h3>Fliperama original</h3>
+          <p>Máquinas de arcade autênticas espalhadas pelo salão, prontas pra disputa.</p>
+        </div>
+        <div class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4"/></svg>
+          <h3>Trilha sonora synthpop</h3>
+          <p>O melhor do synthpop e do rock dos anos 80 embalando toda a experiência.</p>
+        </div>
+      </div>
+
+      <div class="info-strip">
+        <div class="info-strip__item"><strong>Consumo no local</strong><span>Sente, jogue e aproveite o salão</span></div>
+        <div class="info-strip__item"><strong>Retirada no balcão</strong><span>Peça e leve pra onde quiser</span></div>
+        <div class="info-strip__item"><strong>Entrega em domicílio</strong><span>Leve a energia dos anos 80 pra casa</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section class="section" id="galeria">
+    <div class="container">
+      <p class="section__eyebrow">Galeria</p>
+      <h2 class="section__title">Um gostinho do nosso salão</h2>
+      <div class="gallery-grid">
+        <div class="gallery-tile" role="img" aria-label="Espaço reservado para foto do salão"><span>fotos em breve</span></div>
+        <div class="gallery-tile" role="img" aria-label="Espaço reservado para foto do cardápio"><span>fotos em breve</span></div>
+        <div class="gallery-tile" role="img" aria-label="Espaço reservado para foto do fliperama"><span>fotos em breve</span></div>
+        <div class="gallery-tile" role="img" aria-label="Espaço reservado para foto dos milk-shakes"><span>fotos em breve</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="section" id="contato" style="background: rgba(0,240,255,0.05);">
+    <div class="container contact">
+      <div>
+        <p class="section__eyebrow">Contato</p>
+        <h2 class="section__title">Venha reviver os anos 80 com a gente</h2>
+        <p style="color: var(--color-text-muted); margin-top: var(--space-s);">Estamos te esperando para uma noite de hambúrgueres, milk-shakes e muito fliperama.</p>
+      </div>
+      <div class="contact__card">
+        <h3>Horário de funcionamento</h3>
+        <ul class="contact__list">
+          <li><strong>Terça a domingo</strong> — 18h às 00h</li>
+          <li><strong>Endereço:</strong> <span class="contact__pending">a definir</span></li>
+        </ul>
+        <div style="margin-top: var(--space-m);">
+          <a class="btn btn--primary" href="#" aria-label="Chamar no WhatsApp (número a ser configurado)">Chamar no WhatsApp</a>
+        </div>
+        <p class="contact__pending" style="margin-top: var(--space-s);">Número de WhatsApp e redes sociais serão adicionados assim que fornecidos pelo cliente.</p>
+        <div class="social-row" aria-label="Redes sociais (pendente de definição)">
+          <a href="#" aria-label="Instagram (a definir)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" aria-label="Facebook (a definir)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 8h-2a2 2 0 0 0-2 2v10M9 13h6"/><circle cx="12" cy="12" r="9"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <ul class="site-footer__nav">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#diferenciais">Diferenciais</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <p>Lanchonete Exemplo — Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<a class="whatsapp-float" href="#" aria-label="Chamar no WhatsApp (número a ser configurado)">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.36 2 11.75c0 2.06.65 3.97 1.76 5.55L2.6 21.4a.6.6 0 0 0 .74.75l4.24-1.13a10.1 10.1 0 0 0 4.42 1.02c5.52 0 10-4.36 10-9.75S17.52 2 12 2Zm5.02 13.86c-.22.62-1.24 1.18-1.72 1.24-.44.06-.99.08-1.6-.1-.37-.11-.84-.27-1.45-.53-2.55-1.1-4.21-3.66-4.34-3.84-.13-.18-1.04-1.38-1.04-2.63 0-1.25.66-1.86.89-2.12.22-.25.49-.31.65-.31.16 0 .33 0 .47.01.15.01.35-.06.55.42.22.53.74 1.85.81 1.98.06.13.1.29.02.47-.08.18-.13.29-.25.45-.13.15-.27.34-.38.46-.13.13-.26.27-.11.53.15.25.65 1.07 1.4 1.74.96.86 1.77 1.13 2.02 1.25.25.13.4.11.55-.06.15-.18.63-.73.8-.98.16-.25.33-.2.55-.12.22.08 1.4.66 1.64.78.24.13.4.19.46.29.06.11.06.6-.16 1.22Z"/></svg>
+</a>
+
+<script>
+(function(){
+  var toggle = document.getElementById('navToggle');
+  var nav = document.getElementById('main-nav');
+  toggle.addEventListener('click', function(){
+    var open = nav.getAttribute('data-open') === 'true';
+    nav.setAttribute('data-open', String(!open));
+    toggle.setAttribute('aria-expanded', String(!open));
+  });
+  nav.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click', function(){
+      if (window.innerWidth <= 768) {
+        nav.setAttribute('data-open', 'false');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
