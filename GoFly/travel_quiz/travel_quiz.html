@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Veja as possibilidades — GoFly!</title>
+  <meta name="description" content="Responda a algumas perguntas rápidas, anexe seu currículo e deixe a equipe da GoFly! encontrar os destinos mais compatíveis com a sua mudança.">
+  <!-- Favicon: versão simplificada da logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%230b2a5b' d='M50 3c6 7 7 19 7 31l37 32v8L57 58v24l11 10v4L50 94l-18 2v-4l11-10V58L6 74v-8l37-32c0-12 1-24 7-31z'/%3E%3Cpath fill='%23d62839' d='M6 66v8l6-2.3v-10zM94 66v8l-6-2.3v-10z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="gofly-logo" viewBox="0 0 100 100">
+      <g stroke="#0b2a5b" stroke-width="2" stroke-linejoin="round" fill="#ffffff">
+        <path d="M47 36 6 66v8l41-16z"/>
+        <path d="M53 36l41 30v8L53 58z"/>
+        <path d="M48 80 32 92v4l16-6z"/>
+        <path d="M52 80l16 12v4l-16-6z"/>
+        <path d="M50 3c6 7 7 19 7 31v48c0 8-3 13-7 15-4-2-7-7-7-15V34c0-12 1-24 7-31z"/>
+      </g>
+      <path fill="#d62839" d="M6 66v8l6-2.3V61.6zM94 66v8l-6-2.3V61.6zM32 92v4l5-1.9v-5.85zM68 92v4l-5-1.9v-5.85z"/>
+      <path fill="#0b2a5b" d="M43 48h14v5H43z"/>
+      <path fill="#d62839" d="M43 55h14v2H43z"/>
+      <path fill="#0b2a5b" d="M50 9c2 2 4 5 4 9H46c0-4 2-7 4-9z"/>
+    </symbol>
+  </svg>
+
+  <a class="skip-link" href="#quiz-form">Pular para o formulário</a>
+
+  <!-- ======================= HEADER (simple_header) ======================= -->
+  <header class="simple-header">
+    <div class="simple-header__inner">
+      <a class="brand" href="../index.html" aria-label="GoFly! — voltar ao início">
+        <svg class="brand__logo" aria-hidden="true" focusable="false"><use href="#gofly-logo"/></svg>
+        <span class="brand__name">GoFly!</span>
+      </a>
+      <nav aria-label="Navegação principal">
+        <a class="btn btn--secondary" href="../index.html"><span aria-hidden="true">←</span> Voltar ao início</a>
+      </nav>
+    </div>
+    <div class="stripe" aria-hidden="true"></div>
+  </header>
+
+  <main class="container quiz">
+    <h1>Veja as possibilidades!</h1>
+    <p class="quiz__lead">Responda às perguntas abaixo, escolha como prefere receber o resultado e anexe seu currículo.</p>
+
+    <form id="quiz-form">
+
+      <!-- 1 -->
+      <fieldset class="quiz__question">
+        <legend class="quiz__legend">1. Você pretende fazer essa mudança sozinho(a) ou acompanhado(a)?</legend>
+        <div class="quiz__options">
+          <label class="option"><input type="radio" name="q1" value="sozinho" required> <span>Sozinho(a)</span></label>
+          <label class="option"><input type="radio" name="q1" value="conjuge"> <span>Com cônjuge/companheiro(a)</span></label>
+          <label class="option"><input type="radio" name="q1" value="conjuge_filhos"> <span>Com cônjuge e filho(s)</span></label>
+        </div>
+      </fieldset>
+
+      <!-- 2 -->
+      <fieldset class="quiz__question">
+        <legend class="quiz__legend">2. Qual é o seu nível atual de domínio do inglês?</legend>
+        <div class="quiz__options">
+          <label class="option"><input type="radio" name="q2" value="basico" required> <span>Básico ou nenhum</span></label>
+          <label class="option"><input type="radio" name="q2" value="intermediario"> <span>Intermediário (leio bem e consigo me comunicar no dia a dia)</span></label>
+          <label class="option"><input type="radio" name="q2" value="avancado"> <span>Avançado ou fluente (consigo trabalhar totalmente em inglês)</span></label>
+        </div>
+      </fieldset>
+
+      <!-- 3 (múltipla escolha) -->
+      <fieldset class="quiz__question" id="q3-group" aria-describedby="q3-error">
+        <legend class="quiz__legend">3. Você domina algum outro idioma além do português e do inglês?</legend>
+        <div class="quiz__options">
+          <label class="option"><input type="checkbox" name="q3" value="espanhol" class="q3-lang"> <span>Espanhol</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="frances" class="q3-lang"> <span>Francês</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="alemao" class="q3-lang"> <span>Alemão</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="outro" class="q3-lang"> <span>Outro idioma</span></label>
+          <label class="option"><input type="checkbox" name="q3" value="apenas_portugues" id="q3-none"> <span>Apenas português (e/ou inglês)</span></label>
+        </div>
+        <p class="form__error" id="q3-error"></p>
+      </fieldset>
+
+      <!-- 4 -->
+      <fieldset class="quiz__question">
+        <legend class="quiz__legend">4. Qual tipo de clima e ritmo de cidade mais combina com você?</legend>
+        <div class="quiz__options">
+          <label class="option"><input type="radio" name="q4" value="ameno" required> <span>Clima ameno/quente e rotina mais tranquila</span></label>
+          <label class="option"><input type="radio" name="q4" value="estacoes"> <span>Estações bem definidas (incluindo frio intenso) e grandes centros urbanos</span></label>
+          <label class="option"><input type="radio" name="q4" value="tanto_faz"> <span>Tanto faz, minha prioridade total é oportunidade financeira/profissional</span></label>
+        </div>
+      </fieldset>
+
+      <!-- 5 -->
+      <fieldset class="quiz__question">
+        <legend class="quiz__legend">5. O que pesa mais na sua escolha de país hoje?</legend>
+        <div class="quiz__options">
+          <label class="option"><input type="radio" name="q5" value="visto" required> <span>Facilidade de conseguir visto e entrar legalmente</span></label>
+          <label class="option"><input type="radio" name="q5" value="salario"> <span>Salário alto e poder de compra</span></label>
+          <label class="option"><input type="radio" name="q5" value="seguranca"> <span>Segurança e qualidade de vida</span></label>
+          <label class="option"><input type="radio" name="q5" value="cultura"> <span>Proximidade cultural ou facilidade com o idioma</span></label>
+        </div>
+      </fieldset>
+
+      <!-- 6 -->
+      <fieldset class="quiz__question">
+        <legend class="quiz__legend">6. Em quanto tempo você pretende embarcar?</legend>
+        <div class="quiz__options">
+          <label class="option"><input type="radio" name="q6" value="3m" required> <span>Nos próximos 3 meses</span></label>
+          <label class="option"><input type="radio" name="q6" value="3a6m"> <span>Entre 3 e 6 meses</span></label>
+          <label class="option"><input type="radio" name="q6" value="6ma1a"> <span>Entre 6 meses e 1 ano</span></label>
+          <label class="option"><input type="radio" name="q6" value="1a_mais"> <span>Ainda estou apenas planejando (acima de 1 ano)</span></label>
+        </div>
+      </fieldset>
+
+      <!-- Contato -->
+      <fieldset class="quiz__question">
+        <legend class="quiz__legend">Como podemos enviar seu resultado?</legend>
+        <div class="choice">
+          <div>
+            <input class="choice__input visually-hidden" type="radio" name="contato_tipo" id="contato-telefone" value="telefone" required>
+            <label class="btn btn--secondary" for="contato-telefone">Telefone</label>
+          </div>
+          <div>
+            <input class="choice__input visually-hidden" type="radio" name="contato_tipo" id="contato-email" value="email">
+            <label class="btn btn--secondary" for="contato-email">E-mail</label>
+          </div>
+        </div>
+
+        <div class="field" id="field-telefone" hidden>
+          <label class="field__label" for="telefone">Seu telefone / celular</label>
+          <input class="field__input" type="tel" id="telefone" name="telefone" autocomplete="tel" placeholder="(00) 00000-0000">
+        </div>
+
+        <div class="field" id="field-email" hidden>
+          <label class="field__label" for="email">Seu e-mail</label>
+          <input class="field__input" type="email" id="email" name="email" autocomplete="email" placeholder="voce@exemplo.com">
+        </div>
+      </fieldset>
+
+      <!-- Currículo -->
+      <fieldset class="quiz__question">
+        <legend class="quiz__legend"><label for="curriculo">Anexe seu currículo</label></legend>
+        <input class="field__input" type="file" id="curriculo" name="curriculo" accept=".pdf,.doc,.docx" required>
+      </fieldset>
+
+      <!-- Envio (placeholder) -->
+      <div class="form__actions">
+        <button class="btn btn--primary" type="submit">Enviar</button>
+        <p class="form__caption">Esse botão enviará suas respostas para os nossos profissionais poderem parear você com algum país!</p>
+        <p class="form__status" id="form-status" role="status" hidden></p>
+      </div>
+
+    </form>
+  </main>
+
+  <div class="stripe" aria-hidden="true"></div>
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div>
+        <a class="site-footer__logo-badge" href="../index.html" aria-label="GoFly! — voltar ao início">
+          <svg class="site-footer__logo" aria-hidden="true" focusable="false"><use href="#gofly-logo"/></svg>
+          <span class="brand__name">GoFly!</span>
+        </a>
+      </div>
+      <nav aria-label="Navegação do rodapé">
+        <h2 class="site-footer__title">Navegação</h2>
+        <ul class="site-footer__list">
+          <li><a href="../index.html#contato">Contact Us</a></li>
+          <li><a href="../index.html#sobre">Sobre Nós</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var form = document.getElementById('quiz-form');
+      var status = document.getElementById('form-status');
+
+      /* --- Escolha entre telefone ou e-mail --- */
+      var wrappers = {
+        telefone: document.getElementById('field-telefone'),
+        email: document.getElementById('field-email')
+      };
+
+      function updateContact() {
+        var checked = form.querySelector('input[name="contato_tipo"]:checked');
+        var value = checked ? checked.value : null;
+        Object.keys(wrappers).forEach(function (key) {
+          var show = key === value;
+          var input = wrappers[key].querySelector('input');
+          wrappers[key].hidden = !show;
+          input.required = show;
+        });
+      }
+
+      form.querySelectorAll('input[name="contato_tipo"]').forEach(function (radio) {
+        radio.addEventListener('change', updateContact);
+      });
+
+      /* --- Pergunta 3: "Apenas português" é exclusiva --- */
+      var none = document.getElementById('q3-none');
+      var langs = form.querySelectorAll('.q3-lang');
+      var q3Error = document.getElementById('q3-error');
+
+      none.addEventListener('change', function () {
+        if (none.checked) {
+          langs.forEach(function (c) { c.checked = false; });
+          q3Error.textContent = '';
+        }
+      });
+
+      langs.forEach(function (c) {
+        c.addEventListener('change', function () {
+          if (c.checked) {
+            none.checked = false;
+            q3Error.textContent = '';
+          }
+        });
+      });
+
+      /* --- Envio (placeholder: sem destino conectado) --- */
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        if (!form.querySelector('input[name="q3"]:checked')) {
+          q3Error.textContent = 'Selecione ao menos uma opção.';
+          langs[0].focus();
+          return;
+        }
+
+        status.textContent = 'Obrigado! Suas respostas foram registradas. (Versão de demonstração: o envio ainda não está conectado.)';
+        status.hidden = false;
+        status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    })();
+  </script>
+
+</body>
+</html>

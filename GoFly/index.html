@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GoFly! — Mudança internacional para quem sonha em morar fora</title>
+  <meta name="description" content="A GoFly! apoia adultos que sonham em morar em outro país, com passagem de ida, 3 meses de hospedagem e alocação profissional em empresas parceiras.">
+  <!-- Favicon: versão simplificada da logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%230b2a5b' d='M50 3c6 7 7 19 7 31l37 32v8L57 58v24l11 10v4L50 94l-18 2v-4l11-10V58L6 74v-8l37-32c0-12 1-24 7-31z'/%3E%3Cpath fill='%23d62839' d='M6 66v8l6-2.3v-10zM94 66v8l-6-2.3v-10z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sprite SVG: logo e ícones reutilizáveis -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <!-- Logo: avião visto de cima, bico para cima. Branco predominante, azul e vermelho nos detalhes -->
+    <symbol id="gofly-logo" viewBox="0 0 100 100">
+      <g stroke="#0b2a5b" stroke-width="2" stroke-linejoin="round" fill="#ffffff">
+        <path d="M47 36 6 66v8l41-16z"/>
+        <path d="M53 36l41 30v8L53 58z"/>
+        <path d="M48 80 32 92v4l16-6z"/>
+        <path d="M52 80l16 12v4l-16-6z"/>
+        <path d="M50 3c6 7 7 19 7 31v48c0 8-3 13-7 15-4-2-7-7-7-15V34c0-12 1-24 7-31z"/>
+      </g>
+      <path fill="#d62839" d="M6 66v8l6-2.3V61.6zM94 66v8l-6-2.3V61.6zM32 92v4l5-1.9v-5.85zM68 92v4l-5-1.9v-5.85z"/>
+      <path fill="#0b2a5b" d="M43 48h14v5H43z"/>
+      <path fill="#d62839" d="M43 55h14v2H43z"/>
+      <path fill="#0b2a5b" d="M50 9c2 2 4 5 4 9H46c0-4 2-7 4-9z"/>
+    </symbol>
+
+    <symbol id="icon-briefcase" viewBox="0 0 24 24">
+      <rect x="2" y="7" width="20" height="14" rx="2"/>
+      <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+    </symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </symbol>
+    <symbol id="icon-globe" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M2 12h20"/>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+    </symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24">
+      <rect x="2" y="4" width="20" height="16" rx="2"/>
+      <path d="m22 7-10 6L2 7"/>
+    </symbol>
+  </svg>
+
+  <a class="skip-link" href="#possibilidades">Pular para o conteúdo</a>
+
+  <!-- ======================= HEADER ======================= -->
+  <header class="site-header" id="topo">
+    <!-- Imagem de avião de fundo (placeholder em SVG; pode ser trocada por uma foto) -->
+    <svg class="site-header__plane" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <use href="#gofly-logo"/>
+    </svg>
+
+    <div class="container site-header__inner">
+      <a class="brand" href="#topo">
+        <svg class="brand__logo" aria-hidden="true" focusable="false"><use href="#gofly-logo"/></svg>
+        <span class="brand__name">GoFly!</span>
+      </a>
+
+      <div class="site-header__content">
+        <h1 class="site-header__title">Para voar, todos precisam de algum impulso!</h1>
+
+        <nav class="nav" aria-label="Navegação principal">
+          <ul class="nav__list">
+            <li>
+              <a class="nav__link" href="#servicos">
+                <span class="nav__circle">
+                  <svg class="icon nav__icon" aria-hidden="true" focusable="false"><use href="#icon-briefcase"/></svg>
+                </span>
+                <span>Serviços</span>
+              </a>
+            </li>
+            <li>
+              <a class="nav__link" href="#sobre">
+                <span class="nav__circle">
+                  <svg class="icon nav__icon" aria-hidden="true" focusable="false"><use href="#icon-users"/></svg>
+                </span>
+                <span>Sobre nós</span>
+              </a>
+            </li>
+            <li>
+              <a class="nav__link" href="travel_quiz/travel_quiz.html">
+                <span class="nav__circle">
+                  <svg class="icon nav__icon" aria-hidden="true" focusable="false"><use href="#icon-globe"/></svg>
+                </span>
+                <span>Possibilidades</span>
+              </a>
+            </li>
+            <li>
+              <a class="nav__link" href="#contato">
+                <span class="nav__circle">
+                  <svg class="icon nav__icon" aria-hidden="true" focusable="false"><use href="#icon-mail"/></svg>
+                </span>
+                <span>Contato</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <div class="stripe" aria-hidden="true"></div>
+  </header>
+
+  <main>
+
+    <!-- ======================= VEJA AS POSSIBILIDADES ======================= -->
+    <section class="section section--centered" id="possibilidades" aria-labelledby="possibilidades-titulo">
+      <div class="container">
+        <h2 id="possibilidades-titulo">Veja as possibilidades!</h2>
+        <p class="section__text">Não sabe por onde começar? Nosso sistema de pareamento ajuda você a encontrar os destinos com maior compatibilidade para a sua mudança.</p>
+        <p class="section__text">Basta responder a algumas perguntas rápidas, anexar o seu currículo e enviar seus dados. Nossa equipe especializada analisa suas respostas junto com a sua experiência profissional para identificar os países mais propícios para o seu objetivo — e envia o resultado completo diretamente pelo seu e-mail ou número de celular.</p>
+        <div class="section__action">
+          <a class="btn btn--primary" href="travel_quiz/travel_quiz.html">Veja suas possibilidades!</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="stripe" aria-hidden="true"></div>
+
+    <!-- ======================= SERVIÇOS ======================= -->
+    <section class="section section--surface" id="servicos" aria-labelledby="servicos-titulo">
+      <div class="container">
+        <h2 id="servicos-titulo">Serviços</h2>
+        <article class="card card--livery">
+          <p class="card__text">A GoFly! oferece um modelo de transição internacional pensado para dar segurança financeira e profissional nos seus primeiros passos fora do país.</p>
+          <p class="card__text">Com um investimento inicial de R$ 2.000, você inicia o seu processo de mudança com uma estrutura completa preparada pela nossa equipe. Nós arcamos com a passagem de ida, garantimos 3 meses de hospedagem em um local adequado no país de destino e realizamos a alocação profissional em uma de nossas empresas parceiras — para que você já chegue com trabalho definido e teto garantido.</p>
+          <p class="card__text">Durante os primeiros 90 dias, o foco total é a sua adaptação. Somente após esse período inicial passa a valer uma mensalidade referente aos serviços de intermediação e suporte oferecidos pela GoFly!.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= SOBRE NÓS ======================= -->
+    <section class="section" id="sobre" aria-labelledby="sobre-titulo">
+      <div class="container">
+        <h2 id="sobre-titulo">Sobre nós</h2>
+        <p class="section__text">Sair do país para morar fora é uma decisão grande — e merece um processo organizado desde o início. A GoFly! nasceu para apoiar quem busca construir uma nova etapa fora do país, oferecendo orientação prática e estruturada para a viagem e os primeiros passos no exterior.</p>
+        <p class="section__text">Em vez de tratar uma mudança internacional como um simples passeio, encaramos cada projeto com seriedade e método. Ajudamos você a entender o cenário, alinhar expectativas, organizar a logística de partida e estruturar o planejamento inicial para que a transição seja mais previsível e tranquila.</p>
+        <p class="section__text">Valorizamos clareza, responsabilidade e acompanhamento honesto. Na GoFly!, você encontra um ponto de apoio sério e acessível para transformar o plano de morar fora em um passo concreto.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================= FOOTER ======================= -->
+  <div class="stripe" aria-hidden="true"></div>
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+
+      <div>
+        <a class="site-footer__logo-badge" href="#topo" aria-label="GoFly! — voltar ao topo">
+          <svg class="site-footer__logo" aria-hidden="true" focusable="false"><use href="#gofly-logo"/></svg>
+          <span class="brand__name">GoFly!</span>
+        </a>
+      </div>
+
+      <nav aria-label="Navegação do rodapé">
+        <h2 class="site-footer__title">Navegação</h2>
+        <ul class="site-footer__list">
+          <li><a href="#contato">Contact Us</a></li>
+          <li><a href="#sobre">Sobre Nós</a></li>
+        </ul>
+      </nav>
+
+      <div id="contato">
+        <h2 class="site-footer__title">Contato</h2>
+        <!-- Placeholders: dados de contato não foram informados no briefing -->
+        <address class="site-footer__contact">
+          Telefone: [a definir]<br>
+          E-mail: [a definir]
+        </address>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>

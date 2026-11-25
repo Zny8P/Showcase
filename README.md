@@ -35,6 +35,17 @@ A landing page created as a portfolio example for a fictional atelier business.
 [View Website](./costureira_exemplo/index.html)
 
 ---
+
+### FlyGo!
+
+A Page for a entrepreneurship school project.
+
+**Business:** Fly Agency
+
+[View Website](./GoFly/index.html)
+
+---
+
 <!-- Add new projects above this line using the same structure.
 
 ### Project Name
